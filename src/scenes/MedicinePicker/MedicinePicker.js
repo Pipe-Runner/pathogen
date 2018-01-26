@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dropdown,Button,Card } from 'semantic-ui-react'
+import { Dropdown,Button,Card,Table } from 'semantic-ui-react'
 import { InputFieldWrapper } from './styles.MedicinePicker.js';
 
 const medicineOptions = [{key:'aklakl',value: 'kjasjlajl',text:'jhdhkskhds'},{key:'aklakl',value: 'kjasjlajl',text:'jhdhkskhds'},{key:'aklakl',value: 'kjasjlajl',text:'jhdhkskhds'}]
@@ -8,11 +8,12 @@ const medicineOptions = [{key:'aklakl',value: 'kjasjlajl',text:'jhdhkskhds'},{ke
 class MedicinePicker extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {substituteList: [{name:'kjsdkjsdjksd',mdId:'dskjkjdskdsjds'},{name:'kjsdkjsdjksd',mdId:'dskjkjdskdsjds'},{name:'kjsdkjsdjksd',mdId:'dskjkjdskdsjds'}]};
   }
 
   render() {
   	const medicineList = this.props.medicineList;
+  	const substituteList = this.state.substituteList;
 
     return <div><InputFieldWrapper><Dropdown style={{
     	margin: '0px 16px 0px 0px'
@@ -44,6 +45,26 @@ class MedicinePicker extends Component {
         </Card.Content>
       </Card>)}
   </Card.Group>
+  <Table celled>
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Name</Table.HeaderCell>
+        <Table.HeaderCell>Status</Table.HeaderCell>
+        <Table.HeaderCell>Notes</Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+
+    <Table.Body>
+    {substituteList.map((substitute) => 
+      <Table.Row>
+        <Table.Cell>{substitute.name}</Table.Cell>
+        <Table.Cell>{substitute.mdId}</Table.Cell>
+        <Table.Cell selectable>
+          <a href='#'>Edit</a>
+        </Table.Cell>
+      </Table.Row>)}
+    </Table.Body>
+  </Table>
   </div>;
   }
 }
