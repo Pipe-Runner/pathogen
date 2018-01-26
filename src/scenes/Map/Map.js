@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
-const Map = () => <div>Hi this is the map</div>;
+import MapRenderer from './components/MapRenderer';
+import { MapContainer } from './styles.Map.js';
+
+const Map = () => (
+  <MapContainer>
+    <MapRenderer isMarkerShown={true} />
+  </MapContainer>
+);
 
 export default Map;
