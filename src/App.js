@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      medicineList: [],
+      medicineList: [{name:'jsjhakj',mdCode:'12354',description:'adjhjadkhdsjkdsjjdshdfjkj dfsjkkhjdsfkjfds'},{name:'hkahdshja',mdCode:'79546',description:'adjhjadkhdsjkdsjjdshdfjkj dfsjkkhjdsfkjfds'}],
       listOfMedicine: [],
     };
   }
@@ -53,10 +53,10 @@ class App extends Component {
               path="/medicinepicker"
               render={() => (
                 <MedicinePicker
-                  medicineList={this.medicineList}
-                  onMedicineAdd={this.onMedicineAdd}
-                  onMedicineDelete={this.onMedicineDelete}
-                  onMedicineUpdate={this.onMedicineUpdate}
+                  medicineList={this.state.medicineList}
+                  onMedicineAdd={this.state.onMedicineAdd}
+                  onMedicineDelete={this.state.onMedicineDelete}
+                  onMedicineUpdate={this.state.onMedicineUpdate}
                 />
               )}
             />
