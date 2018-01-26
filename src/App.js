@@ -8,7 +8,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      medicineList: [{name:'jsjhakj',mdCode:'12354',description:'adjhjadkhdsjkdsjjdshdfjkj dfsjkkhjdsfkjfds'},{name:'hkahdshja',mdCode:'79546',description:'adjhjadkhdsjkdsjjdshdfjkj dfsjkkhjdsfkjfds'}],
+      medicineList: [
+        {
+          name: 'Para',
+          mdCode: '12354',
+          description: 'some data abc',
+        },
+        {
+          name: 'Hara',
+          mdCode: '79546',
+          description: 'some other data too',
+        },
+      ],
       listOfMedicine: [],
     };
   }
@@ -29,7 +40,7 @@ class App extends Component {
   onMedicineDelete = ({ mdCode }) => {
     this.setState(prevState => ({
       ...prevState,
-      medicineList: prevState.medicineList.filter(item => item.mdCode != mdCode),
+      medicineList: prevState.medicineList.filter(item => item.mdCode !== mdCode),
     }));
   };
 
@@ -37,7 +48,7 @@ class App extends Component {
     this.setState(prevState => ({
       ...prevState,
       medicineList: [
-        ...prevState.medicineList.filter(item => item.mdCode != selectedMdCode),
+        ...prevState.medicineList.filter(item => item.mdCode !== selectedMdCode),
         { medicineName: replaceMedicineName, mdCode: replaceMdCode },
       ],
     }));
