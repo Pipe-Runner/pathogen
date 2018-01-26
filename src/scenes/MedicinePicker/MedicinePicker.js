@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {} from './styles.MedicinePicker.js';
 
 class MedicinePicker extends Component {
   constructor(props) {
