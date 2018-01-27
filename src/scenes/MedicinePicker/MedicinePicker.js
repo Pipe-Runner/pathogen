@@ -7,12 +7,7 @@ import {
   CartWrapper,
   SubstituteWrapper,
 } from './styles.MedicinePicker.js';
-
-const medicineOptions = [
-  { key: 1, value: 'kjasjlajl', text: 'jhdhkskhds' },
-  { key: 2, value: 'kjasjlajl', text: 'jhdhkskhds' },
-  { key: 3, value: 'kjasjlajl', text: 'jhdhkskhds' },
-];
+import { fetchMedicineNameApi } from './api.MedicinePicker';
 
 const radiusOptions = [
   { key: 1, value: 5, text: '5 KM' },
@@ -28,6 +23,10 @@ class MedicinePicker extends Component {
       medicineFieldText: '',
       locationFieldText: '',
       searchRadiusFieldText: '',
+      substituteList: [],
+      medicineOptions: [],
+      locationOptions: [],
+      medicineOptionsLoading: false,
     };
   }
 
@@ -39,11 +38,53 @@ class MedicinePicker extends Component {
     }));
   };
 
-  onChangeTextField = fieldName => (event, { value }) => {
-    console.log(value);
+  onChangeTextField = fieldName => (event, { searchQuery }) => {
+    console.log(searchQuery);
+
+    if (fieldName === 'medicineFieldText') {
+      this.setState({
+        ...this.state,
+        medicineOptionsLoading: true,
+      });
+
+      fetchMedicineNameApi({
+        search: searchQuery,
+      })
+        .then(response => {
+          if (response.ok === true) {
+            return response.json();
+          }
+          throw new Error('Error in network');
+        })
+        .then(data => {
+          this.setState({
+            ...this.state,
+            medicineOptionsLoading: false,
+            medicineOptions: data.suggestions.map(item => ({
+              key: item.truemdCode,
+              text: item.name,
+              value: item.name,
+            })),
+          });
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
     this.setState(prevState => ({
       ...prevState,
-      [`${fieldName}`]: value,
+      [`${fieldName}`]: searchQuery,
+    }));
+  };
+
+  onReset = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      medicineFieldText: '',
+      locationFieldText: '',
+      searchRadiusFieldText: '',
     }));
   };
 
@@ -61,10 +102,11 @@ class MedicinePicker extends Component {
             fluid
             search
             selection
-            options={medicineOptions}
+            options={this.state.medicineOptions}
             onChange={this.onChangeSelection('medicineFieldText')}
             onSearchChange={this.onChangeTextField('medicineFieldText')}
             value={this.state.medicineFieldText}
+            loading={this.state.medicineOptionsLoading}
           />
           <Dropdown
             style={{
@@ -74,7 +116,7 @@ class MedicinePicker extends Component {
             fluid
             search
             selection
-            options={medicineOptions}
+            options={this.state.locationOptions}
             onChange={this.onChangeSelection('locationFieldText')}
             onSearchChange={this.onChangeTextField('locationFieldText')}
             value={this.state.locationFieldText}
@@ -90,9 +132,17 @@ class MedicinePicker extends Component {
             value={this.state.searchRadiusFieldText}
           />
           <Button.Group>
-            <Button>Reset</Button>
+            <Button onClick={this.onReset}>Reset</Button>
             <Button.Or text="" />
-            <Button positive>Add</Button>
+            <Button
+              positive
+              onClick={this.props.onMedicineAdd({
+                medicineName: 'Hg',
+                mdCode: 123,
+              })}
+            >
+              Add
+            </Button>
           </Button.Group>
         </InputFieldWrapper>
         <BucketContainer>

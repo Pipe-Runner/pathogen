@@ -19,12 +19,22 @@ class App extends Component {
           mdCode: '79546',
           description: 'some other data too',
         },
+        {
+          name: 'Hara',
+          mdCode: '79546',
+          description: 'some other data too',
+        },
+        {
+          name: 'Hara',
+          mdCode: '79546',
+          description: 'some other data too',
+        },
       ],
       listOfMedicine: [],
     };
   }
 
-  onMedicineAdd = ({ medicineName, mdCode }) => {
+  onMedicineAdd = ({ medicineName, mdCode }) => () => {
     this.setState(prevState => ({
       ...prevState,
       medicineList: [
@@ -65,9 +75,9 @@ class App extends Component {
               render={() => (
                 <MedicinePicker
                   medicineList={this.state.medicineList}
-                  onMedicineAdd={this.state.onMedicineAdd}
-                  onMedicineDelete={this.state.onMedicineDelete}
-                  onMedicineUpdate={this.state.onMedicineUpdate}
+                  onMedicineAdd={this.onMedicineAdd}
+                  onMedicineDelete={this.onMedicineDelete}
+                  onMedicineUpdate={this.onMedicineUpdate}
                 />
               )}
             />
