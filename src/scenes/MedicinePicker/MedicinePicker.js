@@ -47,6 +47,7 @@ class MedicinePicker extends Component {
         medicineOptionsLoading: true,
       });
 
+      // api call to server
       fetchMedicineNameApi({
         search: searchQuery,
       })
