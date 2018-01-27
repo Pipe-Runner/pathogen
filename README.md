@@ -15,10 +15,21 @@ It can really help us find cheap drug alternatives  while saving our time for ch
 * The location of availability of each medicine can be found out within a user's viscinity determined by their GPS coordinates(manual location selection also available for non GPS devices).
 
 #### We have two branches for our project:
+(We are using separate servers for hosting frontend and backend)
 >1. **master**:  _for frontend contents_
 >2. **backend**:  _for backend API's_
+
+## Technology Stack
 
 ### Services Used:
 >1. Google Maps
 >2. Google Places
 >3. Google Location Autocomplete
+
+### Frameworks in Use:
+>1. ReactJS
+>2. Flask
+
+### Database:
+
+> MySQL
