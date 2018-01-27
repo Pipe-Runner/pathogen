@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine

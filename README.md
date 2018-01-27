@@ -1,6 +1,8 @@
 # Hack36
 
-## Team Name: _Redux_
+### Team Name: _Redux_
+
+## Mechanism for prescribing drug in hospitals and its or its substitute availability in the medical shops of the area/ city.
 
 The app provides substitutes to the medicines, while showing the availability of these medicines in the nearby chemists.
 It can really help us find cheap drug alternatives  while saving our time for checking too many chemists in case.
@@ -13,4 +15,6 @@ It can really help us find cheap drug alternatives  while saving our time for ch
 
 #### We have two branches for our project:
 >1. **master**:  _for frontend contents_
-2. **backend**:  _for backend API's_
+>2. **backend**:  _for backend API's_
+
+
