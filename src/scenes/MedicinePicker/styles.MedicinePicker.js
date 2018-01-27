@@ -13,6 +13,11 @@ export const BucketContainer = styled.div`
   flex-direction: row;
 `;
 
-export const CartWrapper = styled.div`margin: 0px 16px 0px 0px;`;
+export const CartWrapper = styled.div`margin: 0px 16px 0px 0px;
+float:left;
+width:75%;`;
 
-export const SubstituteWrapper = styled.div``;
+export const SubstituteWrapper = styled.div`
+float:right;
+width:25%;
+`;

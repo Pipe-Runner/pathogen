@@ -20,9 +20,9 @@ class App extends Component {
           description: 'some other data too',
         },
         {
-          name: 'Para',
-          mdCode: '12354',
-          description: 'some data abc',
+          name: 'Hara',
+          mdCode: '79546',
+          description: 'some other data too',
         },
         {
           name: 'Hara',
@@ -31,10 +31,24 @@ class App extends Component {
         },
       ],
       listOfMedicine: [],
+      userLocation: {
+        lat: undefined,
+        lng: undefined,
+      },
     };
   }
 
-  onMedicineAdd = ({ medicineName, mdCode }) => () =>{
+  onUserLocationUpdate = ({ lat, lng }) => () => {
+    this.setState(prevState => ({
+      ...prevState,
+      userLocation: {
+        lat: lat,
+        lng: lng,
+      },
+    }));
+  };
+
+  onMedicineAdd = ({ medicineName, mdCode }) => () => {
     this.setState(prevState => ({
       ...prevState,
       medicineList: [
@@ -75,9 +89,10 @@ class App extends Component {
               render={() => (
                 <MedicinePicker
                   medicineList={this.state.medicineList}
-                  onMedicineAdd={this.state.onMedicineAdd}
-                  onMedicineDelete={this.state.onMedicineDelete}
-                  onMedicineUpdate={this.state.onMedicineUpdate}
+                  onMedicineAdd={this.onMedicineAdd}
+                  onMedicineDelete={this.onMedicineDelete}
+                  onMedicineUpdate={this.onMedicineUpdate}
+                  onUserLocationUpdate={this.onUserLocationUpdate}
                 />
               )}
             />

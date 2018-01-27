@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Dropdown,Button,Card,Table } from 'semantic-ui-react'
-// import { InputFieldWrapper } from './styles.MedicinePicker.js';
+import { Dropdown, Button, Card, Table } from 'semantic-ui-react';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   MedicinePickerContainer,
   InputFieldWrapper,
@@ -8,12 +8,7 @@ import {
   CartWrapper,
   SubstituteWrapper,
 } from './styles.MedicinePicker.js';
-
-const medicineOptions = [
-  { key: 1, value: 'kjasjlajl', text: 'jhdhkskhds' },
-  { key: 2, value: 'kjasjlajl', text: 'jhdhkskhds' },
-  { key: 3, value: 'kjasjlajl', text: 'jhdhkskhds' },
-];
+import { fetchMedicineNameApi } from './api.MedicinePicker';
 
 const radiusOptions = [
   { key: 1, value: 5, text: '5 KM' ,mals:'ksajksakj'},
@@ -29,7 +24,10 @@ class MedicinePicker extends Component {
       medicineFieldText: '',
       locationFieldText: '',
       searchRadiusFieldText: '',
-      substituteList: [{name:'jkdskdjskkjds',mdId:'sjakjdskjsd'},{name:'jkdskdjskkjds',mdId:'sjakjdskjsd'}]
+      substituteList: [],
+      medicineOptions: [],
+      locationOptions: [],
+      medicineOptionsLoading: false,
     };
   }
 
@@ -43,14 +41,75 @@ class MedicinePicker extends Component {
 
   onChangeTextField = fieldName => (event, { searchQuery }) => {
     console.log(searchQuery);
+
+    switch (fieldName) {
+      case 'medicineFieldText':
+        this.setState({
+          ...this.state,
+          medicineOptionsLoading: true,
+        });
+
+        // api call to server
+        fetchMedicineNameApi({
+          search: searchQuery,
+        })
+          .then(response => {
+            if (response.ok === true) {
+              return response.json();
+            }
+            throw new Error('Error in network');
+          })
+          .then(data => {
+            this.setState({
+              ...this.state,
+              medicineOptionsLoading: false,
+              medicineOptions: data.suggestions.map(item => ({
+                key: item.truemdCode,
+                text: item.name,
+                value: item.name,
+              })),
+            });
+            console.log(data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        break;
+      case 'locationFieldText':
+        // api call for location
+        geocodeByAddress(searchQuery).then(results => {
+          console.log(results);
+          this.setState(prevState => ({
+            ...prevState,
+            locationOptions: results.map(item => ({
+              key: item.place_id,
+              text: item.formatted_address,
+              value: item.formatted_address,
+            })),
+          }));
+        });
+        break;
+      default:
+        break;
+    }
+
     this.setState(prevState => ({
       ...prevState,
       [`${fieldName}`]: searchQuery,
     }));
   };
 
+  onReset = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      medicineFieldText: '',
+      locationFieldText: '',
+      searchRadiusFieldText: '',
+    }));
+  };
+
   render() {
-  	const substituteList = this.state.substituteList;
+    const substituteList = this.state.substituteList;
 
     const medicineList = this.props.medicineList;
 
@@ -65,10 +124,11 @@ class MedicinePicker extends Component {
             fluid
             search
             selection
-            options={medicineOptions}
+            options={this.state.medicineOptions}
             onChange={this.onChangeSelection('medicineFieldText')}
             onSearchChange={this.onChangeTextField('medicineFieldText')}
             value={this.state.medicineFieldText}
+            loading={this.state.medicineOptionsLoading}
           />
           <Dropdown
             style={{
@@ -78,7 +138,7 @@ class MedicinePicker extends Component {
             fluid
             search
             selection
-            options={medicineOptions}
+            options={this.state.locationOptions}
             onChange={this.onChangeSelection('locationFieldText')}
             onSearchChange={this.onChangeTextField('locationFieldText')}
             value={this.state.locationFieldText}
@@ -94,9 +154,17 @@ class MedicinePicker extends Component {
             value={this.state.searchRadiusFieldText}
           />
           <Button.Group>
-            <Button>Reset</Button>
+            <Button onClick={this.onReset}>Reset</Button>
             <Button.Or text="" />
-            <Button positive>Add</Button>
+            <Button
+              positive
+              onClick={this.props.onMedicineAdd({
+                medicineName: 'Hg',
+                mdCode: 123,
+              })}
+            >
+              Add
+            </Button>
           </Button.Group>
         </InputFieldWrapper>
         <BucketContainer>
@@ -130,25 +198,27 @@ class MedicinePicker extends Component {
           </CartWrapper>
           <SubstituteWrapper>
             <Table celled>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>Name</Table.HeaderCell>
-        <Table.HeaderCell>Status</Table.HeaderCell>
-        <Table.HeaderCell>Notes</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Name</Table.HeaderCell>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
+                  <Table.HeaderCell>Notes</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-    <Table.Body>
-    {substituteList.map((substitute) => 
-      <Table.Row>
-        <Table.Cell>{substitute.name}</Table.Cell>
-        <Table.Cell>{substitute.mdId}</Table.Cell>
-        <Table.Cell selectable>
-          <a href='#'>Edit</a>
-        </Table.Cell>
-      </Table.Row>)}
-    </Table.Body>
-  </Table></SubstituteWrapper>
+              <Table.Body>
+                {substituteList.map(substitute => (
+                  <Table.Row>
+                    <Table.Cell>{substitute.name}</Table.Cell>
+                    <Table.Cell>{substitute.mdId}</Table.Cell>
+                    <Table.Cell selectable>
+                      <a href="#">Edit</a>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </SubstituteWrapper>
         </BucketContainer>
       </MedicinePickerContainer>
     );
