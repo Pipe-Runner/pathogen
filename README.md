@@ -2,8 +2,11 @@
 
 ## Team Name: _Redux_
 
+## Description
+Mechanism for prescribing drug in hospitals and its or its substitute availability in the medical shops of the area/ city
+
 The app provides substitutes to the medicines, while showing the availability of these medicines in the nearby chemists.
-It can really help us find cheap drug alternatives  while saving our time for checking too many chemists in case.
+It can really help us find cheap drug alternatives  while saving our time for checking too many chemists in case by showing the most nearest ones with availablity of drug.
 
 #### Features of our project:
 * Search medicines by either their name or substitute(generic).
