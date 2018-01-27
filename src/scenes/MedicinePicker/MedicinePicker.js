@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { Dropdown, Button, Card, Table } from 'semantic-ui-react';
+import {
+  Dropdown,
+  Button,
+  Card,
+  Table,
+  Divider,
+  Label,
+  Segment,
+  List,
+  Image,
+} from 'semantic-ui-react';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   MedicinePickerContainer,
@@ -9,6 +19,7 @@ import {
   SubstituteWrapper,
 } from './styles.MedicinePicker.js';
 import { fetchMedicineNameApi } from './api.MedicinePicker';
+import MedicineIcon from '../../public/medicine_icon.svg';
 
 const radiusOptions = [
   { key: 1, value: 5, text: '5 KM' },
@@ -24,11 +35,37 @@ class MedicinePicker extends Component {
       medicineFieldText: '',
       locationFieldText: '',
       searchRadiusFieldText: '',
-      substituteList: [],
+      substituteList: [
+        {
+          name: 'xyz',
+          truemdCode: 123,
+          options: {
+            manufacturer: 'Menarini India Pvt Ltd',
+            mrp: 233.83,
+            name: 'CROPHEN 5MG/125MG TABLET',
+            pForm: 'Tablet',
+            packSize: '500  Tablet',
+            truemdCode: '6w4Q33',
+          },
+        },
+        {
+          name: 'abc',
+          truemdCode: 145,
+          options: {
+            manufacturer: 'Menarini India Pvt Ltd',
+            mrp: 233.83,
+            name: 'CROPHEN 5MG/125MG TABLET',
+            pForm: 'Tablet',
+            packSize: '500  Tablet',
+            truemdCode: '6w4Q33',
+          },
+        },
+      ],
       medicineOptions: [],
       locationOptions: [],
       medicineOptionsLoading: false,
       medicineToAdd: {},
+      findSubstitute: 'fda',
     };
   }
 
@@ -188,6 +225,7 @@ class MedicinePicker extends Component {
             </Button>
           </Button.Group>
         </InputFieldWrapper>
+        <Divider />
         <BucketContainer>
           <CartWrapper>
             <Card.Group>
@@ -212,29 +250,43 @@ class MedicinePicker extends Component {
               ))}
             </Card.Group>
           </CartWrapper>
-          <SubstituteWrapper>
-            <Table celled>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell>Status</Table.HeaderCell>
-                  <Table.HeaderCell>Notes</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-
-              <Table.Body>
-                {substituteList.map(substitute => (
-                  <Table.Row>
-                    <Table.Cell>{substitute.name}</Table.Cell>
-                    <Table.Cell>{substitute.mdId}</Table.Cell>
-                    <Table.Cell selectable>
-                      <a href="#">Edit</a>
-                    </Table.Cell>
-                  </Table.Row>
+          {!this.state.findSubstitute ? (
+            undefined
+          ) : (
+            <SubstituteWrapper>
+              <Segment raised>
+                <Label
+                  onClick={() => {
+                    this.setState(prevState => ({
+                      ...prevState,
+                      findSubstitute: {},
+                    }));
+                  }}
+                  as="a"
+                  color="orange"
+                  ribbon
+                >
+                  Cancel
+                </Label>
+                <span>Substitue</span>
+              </Segment>
+              <List divided verticalAlign="middle">
+                {this.state.substituteList.map((item, index) => (
+                  <List.Item key={index}>
+                    <List.Content floated="right">
+                      <Button>Add</Button>
+                    </List.Content>
+                    <Image avatar src={MedicineIcon} />
+                    <List.Content>
+                      <List.Header as="a">{item.name}</List.Header>
+                      <List.Description>{item.options.manufacturer}</List.Description>
+                      {item.options.mrp}
+                    </List.Content>
+                  </List.Item>
                 ))}
-              </Table.Body>
-            </Table>
-          </SubstituteWrapper>
+              </List>
+            </SubstituteWrapper>
+          )}
         </BucketContainer>
       </MedicinePickerContainer>
     );
