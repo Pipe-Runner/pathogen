@@ -6,6 +6,7 @@ import json
 from flask_cors import CORS
 import urllib2
 import random
+import operator
 
 db_connect = create_engine('sqlite:///chinook.db')
 app = Flask(__name__)
@@ -48,7 +49,7 @@ class Substitute(Resource):
         cleaned_data = []
         for i in data["alternatives"]:
             cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"] } )
-        cleaned_data = cleaned_data.sort(key=lambda x: x.mrp)
+        cleaned_data.sort(key=lambda x: x['mrp'])
         return cleaned_data[0:20]
 
     def post(self):
