@@ -28,13 +28,15 @@ class NearBy(Resource):
         
         for m in data['results']:
             clean_shops.append({ "name":m["name"],"location": str(m["geometry"]["location"]["lat"])+","+str(m["geometry"]["location"]["lng"]) })
-
-        print "****************CLEAN SHOPS",data,clean_shops
+	if len(clean_shops)==0:
+		print "*********** Clean_shops=0",clean_shops
+        #print "****************CLEAN SHOPS",data,clean_shops
         
         for m in range(len(meds)):
-            randi=list(set(random.sample(range(0,len(clean_shops)-1),random.randint( 0 ,len(clean_shops)-1))))
+            randi=list(set(random.sample(range(0,len(clean_shops)-1),random.randint( 1,len(clean_shops)-1))))
             randi.sort()
             meds[m]["avail"] = [clean_shops[i] for i in randi]
+	print [len(i["avail"]) for i in meds]
         return meds
 
     def post(self):
