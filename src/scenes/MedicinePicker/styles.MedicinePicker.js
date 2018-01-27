@@ -28,7 +28,7 @@ position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 30px;
+    height: 60px;
     background-color: blue;
     color: white;
     text-align: center;
