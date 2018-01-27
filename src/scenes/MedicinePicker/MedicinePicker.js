@@ -10,6 +10,7 @@ import {
   List,
   Image,
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   MedicinePickerContainer,
@@ -23,10 +24,10 @@ import { fetchMedicineNameApi,fetchSubstituteListApi } from './api.MedicinePicke
 import MedicineIcon from '../../public/medicine_icon.svg';
 
 const radiusOptions = [
-  { key: 1, value: 5, text: '5 KM' ,mals:'ksajksakj'},
-  { key: 2, value: 10, text: '10 KM',mals:'ksajksakj' },
-  { key: 3, value: 15, text: '15 KM' ,mals:'ksajksakj'},
-  { key: 4, value: 20, text: '20 KM' ,mals:'ksajksakj'},
+  { key: 1, value: 5, text: '5 KM', mals: 'ksajksakj' },
+  { key: 2, value: 10, text: '10 KM', mals: 'ksajksakj' },
+  { key: 3, value: 15, text: '15 KM', mals: 'ksajksakj' },
+  { key: 4, value: 20, text: '20 KM', mals: 'ksajksakj' },
 ];
 
 class MedicinePicker extends Component {
@@ -64,6 +65,9 @@ class MedicinePicker extends Component {
             lng: lng,
           });
         });
+        break;
+      case 'searchRadiusFieldText':
+        this.props.onRadiusUpdate(data.value);
         break;
     }
 
@@ -244,6 +248,7 @@ class MedicinePicker extends Component {
                       }}>
       {medicine.pForm}
     </Label>
+
                     <Card.Header>{medicine.name}</Card.Header>
                     <Card.Meta>Packet Size : {medicine.packSize}</Card.Meta>
                     <Card.Description>{medicine.manufacturer} </Card.Description>
@@ -254,8 +259,11 @@ class MedicinePicker extends Component {
                       onClick = {this.onSubstituteClick({mdCode:medicine.mdCode})}>
                         Find Substitute
                       </Button>
-                      <Button basic color="red"
-                      onClick = {this.props.onMedicineDelete({mdCode:medicine.mdCode})}>
+                      <Button
+                        basic
+                        color="red"
+                        onClick={this.props.onMedicineDelete({ mdCode: medicine.mdCode })}
+                      >
                         Remove
                       </Button>
                     </div>
@@ -303,14 +311,16 @@ class MedicinePicker extends Component {
           )}
         </BucketContainer>
         <FooterContainer>
-        <Button basic color="red"
-        style = {{
-        	float: 'right',
-        	margin: '0px 16px 0px 0px'
-        }}
-                      >
-                        Remove
-                      </Button>
+          <Button
+            basic
+            color="red"
+            style={{
+              float: 'right',
+              margin: '0px 16px 0px 0px',
+            }}
+          >
+            <Link to="/map">Show on Map</Link>
+          </Button>
         </FooterContainer>
       </MedicinePickerContainer>
     );
