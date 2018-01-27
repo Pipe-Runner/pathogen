@@ -6,7 +6,6 @@ import json
 from flask_cors import CORS
 import urllib2
 import random
-import operator
 
 db_connect = create_engine('sqlite:///chinook.db')
 app = Flask(__name__)
