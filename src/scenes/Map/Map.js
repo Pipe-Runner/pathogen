@@ -22,40 +22,6 @@ class Map extends Component {
     };
   }
 
-  // {
-  //   avail: [
-  //     {
-  //       location: '26.4920107,82.86391630000009',
-  //       name: 'Krishna Medico',
-  //     },
-  //   ],
-  //   medCode: 'v5df5',
-  //   manufacturer: 'Alpha',
-  //   name: 'Paracitamol',
-  // },
-  // {
-  //   avail: [
-  //     {
-  //       location: '25.1688163,84.8910647',
-  //       name: 'Krishna Medico',
-  //     },
-  //   ],
-  //   medCode: 'v5dfd',
-  //   manufacturer: 'Alpha',
-  //   name: 'Paracitamol',
-  // },
-  // {
-  //   avail: [
-  //     {
-  //       location: '26.1688163,85.8910647',
-  //       name: 'Krishna Medico',
-  //     },
-  //   ],
-  //   medCode: 'v5dS5',
-  //   manufacturer: 'Alpha',
-  //   name: 'Paracitamol',
-  // },
-
   componentWillMount = () => {
     fetchNearbyShops({
       radius: this.props.radius,
