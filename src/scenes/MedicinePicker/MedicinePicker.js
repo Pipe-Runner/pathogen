@@ -9,6 +9,9 @@ import {
   Segment,
   List,
   Image,
+  Icon,
+  Dimmer,
+  Loader,
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
@@ -20,8 +23,9 @@ import {
   FooterContainer,
   SubstituteWrapper,
 } from './styles.MedicinePicker.js';
-import { fetchMedicineNameApi,fetchSubstituteListApi } from './api.MedicinePicker';
+import { fetchMedicineNameApi, fetchSubstituteListApi } from './api.MedicinePicker';
 import MedicineIcon from '../../public/medicine_icon.svg';
+import BackgroundIcon from '../../public/background_icon.svg';
 
 const radiusOptions = [
   { key: 1, value: 5, text: '5 KM', mals: 'ksajksakj' },
@@ -42,8 +46,8 @@ class MedicinePicker extends Component {
       locationOptions: [],
       medicineOptionsLoading: false,
       medicineToAdd: {},
-      findSubstitute: 'fda',
       selectedMdCode: '',
+      substituteListLoading: false,
     };
   }
 
@@ -77,33 +81,40 @@ class MedicinePicker extends Component {
     }));
   };
 
-  onSubstituteClick = ({mdCode}) => () => {
-  	console.log(mdCode);
-  	fetchSubstituteListApi({
-  		mdCode: mdCode,
-  	})
-  	.then(response => {
-  		if(response.ok === true){
-  			return response.json();
-  		}
-  		throw new Error('Error in network');
-
-  	}).then(data => {
-  		this.setState({
-  			...this.state,
-  			substituteList: data.map(item => ({
-  				manufacturer: item.manufacturer,
-  				truemdCode: item.truemId,
-  				mrp: item.mrp,
-  				name: item.name, 
-  			})),
-
-  		});
-            console.log(data);
-          })
-          .catch(error => {
-            console.log(error);
-          });
+  onFindSubstituteClick = ({ mdCode }) => () => {
+    console.log(mdCode);
+    this.setState({
+      ...this.state,
+      substituteListLoading: true,
+    });
+    fetchSubstituteListApi({
+      mdCode: mdCode,
+    })
+      .then(response => {
+        if (response.ok === true) {
+          return response.json();
+        }
+        throw new Error('Error in network');
+      })
+      .then(data => {
+        this.setState({
+          ...this.state,
+          substituteList: data.map(item => ({
+            manufacturer: item.manufacturer,
+            truemdCode: item.truemdId,
+            mrp: item.mrp,
+            name: item.name,
+            pForm: item.pForm,
+            size: item.size,
+          })),
+          substituteListLoading: false,
+          selectedMdCode: mdCode,
+        });
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   onChangeTextField = fieldName => (event, { searchQuery }) => {
@@ -182,59 +193,81 @@ class MedicinePicker extends Component {
 
     return (
       <MedicinePickerContainer>
+        <Dimmer active={this.state.substituteListLoading} onClickOutside={this.handleClose} page>
+          <Loader indeterminate>Fetching Similar Medicines</Loader>
+        </Dimmer>
         <InputFieldWrapper>
-          <Dropdown
-            style={{
-              margin: '0px 16px 0px 0px',
-            }}
-            placeholder="Select Medicine"
-            fluid
-            search
-            selection
-            options={this.state.medicineOptions}
-            onChange={this.onChangeSelection('medicineFieldText')}
-            onSearchChange={this.onChangeTextField('medicineFieldText')}
-            value={this.state.medicineFieldText}
-            loading={this.state.medicineOptionsLoading}
-          />
-          <Dropdown
-            style={{
-              margin: '0px 16px 0px 0px',
-            }}
-            placeholder="Select Location"
-            fluid
-            search
-            selection
-            options={this.state.locationOptions}
-            onChange={this.onChangeSelection('locationFieldText')}
-            onSearchChange={this.onChangeTextField('locationFieldText')}
-            value={this.state.locationFieldText}
-          />
-          <Dropdown
-            style={{
-              margin: '0px 16px 0px 0px',
-            }}
-            placeholder="Select search radius"
-            selection
-            options={radiusOptions}
-            onChange={this.onChangeSelection('searchRadiusFieldText')}
-            value={this.state.searchRadiusFieldText}
-          />
-          <Button.Group>
-            <Button onClick={this.onReset}>Reset</Button>
-            <Button.Or text="" />
-            <Button
-              positive
-              onClick={this.props.onMedicineAdd({
-                medicineName: this.state.medicineToAdd.name,
-                mdCode: this.state.medicineToAdd.truemdCode,
-                pForm: this.state.pForm,
-                options: this.state.medicineToAdd,
-              })}
+          <div style={{ width: '50%', display: 'flex', flexDirection: 'row' }}>
+            <Dropdown
+              style={{
+                margin: '0px 16px 0px 0px',
+              }}
+              placeholder="Select Medicine"
+              search
+              fluid
+              selection
+              options={this.state.medicineOptions}
+              onChange={this.onChangeSelection('medicineFieldText')}
+              onSearchChange={this.onChangeTextField('medicineFieldText')}
+              value={this.state.medicineFieldText}
+              loading={this.state.medicineOptionsLoading}
+            />
+            <Button.Group
+              style={{
+                margin: '0px 16px 0px 0px',
+              }}
             >
-              Add
-            </Button>
-          </Button.Group>
+              <Button onClick={this.onReset}>Reset</Button>
+              <Button.Or text="" />
+              <Button
+                positive
+                onClick={this.props.onMedicineAdd({
+                  medicineName: this.state.medicineToAdd.name,
+                  mdCode: this.state.medicineToAdd.truemdCode,
+                  pForm: this.state.pForm,
+                  options: this.state.medicineToAdd,
+                })}
+              >
+                Add
+              </Button>
+            </Button.Group>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              width: '50%',
+            }}
+          >
+            <Dropdown
+              style={{
+                margin: '0px 16px 0px 0px',
+              }}
+              placeholder="Select Location"
+              search
+              selection
+              options={this.state.locationOptions}
+              onChange={this.onChangeSelection('locationFieldText')}
+              onSearchChange={this.onChangeTextField('locationFieldText')}
+              value={this.state.locationFieldText}
+            />
+            <Dropdown
+              style={{
+                margin: '0px 16px 0px 0px',
+              }}
+              placeholder="Select search radius"
+              selection
+              options={radiusOptions}
+              onChange={this.onChangeSelection('searchRadiusFieldText')}
+              value={this.state.searchRadiusFieldText}
+            />
+            <Link to="/map">
+              <Button color="linkedin">
+                <Icon name="connectdevelop" /> Find on map
+              </Button>
+            </Link>
+          </div>
         </InputFieldWrapper>
         <Divider />
         <BucketContainer>
@@ -243,20 +276,26 @@ class MedicinePicker extends Component {
               {medicineList.map((medicine, index) => (
                 <Card key={index}>
                   <Card.Content>
-                      <Label as='a' image style={{
-                      	float: 'right'
-                      }}>
-      {medicine.pForm}
-    </Label>
-
+                    <Label
+                      as="a"
+                      image
+                      style={{
+                        float: 'right',
+                      }}
+                    >
+                      {medicine.pForm}
+                    </Label>
                     <Card.Header>{medicine.name}</Card.Header>
                     <Card.Meta>Packet Size : {medicine.packSize}</Card.Meta>
                     <Card.Description>{medicine.manufacturer} </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
                     <div className="ui two buttons">
-                      <Button basic color="green"
-                      onClick = {this.onSubstituteClick({mdCode:medicine.mdCode})}>
+                      <Button
+                        basic
+                        color="green"
+                        onClick={this.onFindSubstituteClick({ mdCode: medicine.mdCode })}
+                      >
                         Find Substitute
                       </Button>
                       <Button
@@ -272,7 +311,7 @@ class MedicinePicker extends Component {
               ))}
             </Card.Group>
           </CartWrapper>
-          {!this.state.findSubstitute ? (
+          {substituteList.length === 0 ? (
             undefined
           ) : (
             <SubstituteWrapper>
@@ -293,10 +332,21 @@ class MedicinePicker extends Component {
                 <span>Substitue</span>
               </Segment>
               <List divided verticalAlign="middle">
-                {this.state.substituteList.map((item, index) => (
+                {substituteList.map((item, index) => (
                   <List.Item key={index}>
                     <List.Content floated="right">
-                      <Button>Add</Button>
+                      <Button
+                        onClick={this.props.onMedicineUpdate({
+                          selectedMdCode: this.state.selectedMdCode,
+                          replaceMdCode: item.mdCode,
+                          options: item,
+                          resetSubstituteList: () => {
+                            this.setState(prevState => ({ ...prevState, substituteList: [] }));
+                          },
+                        })}
+                      >
+                        Substitue
+                      </Button>
                     </List.Content>
                     <Image avatar src={MedicineIcon} />
                     <List.Content>
@@ -310,18 +360,6 @@ class MedicinePicker extends Component {
             </SubstituteWrapper>
           )}
         </BucketContainer>
-        <FooterContainer>
-          <Button
-            basic
-            color="red"
-            style={{
-              float: 'right',
-              margin: '0px 16px 0px 0px',
-            }}
-          >
-            <Link to="/map">Show on Map</Link>
-          </Button>
-        </FooterContainer>
       </MedicinePickerContainer>
     );
   }

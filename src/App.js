@@ -8,24 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      medicineList: [
-        {
-          name: 'CROPARA 250MG SUSPENSION',
-          truemdCode: '634GGz',
-          manufacturer: 'Menarini India Pvt Ltd',
-          pForm: 'Suspension',
-          packSize: '60 ml Suspension',
-          mrp: 18.76,
-        },
-        {
-          name: 'CROPHEN 5MG/125MG TABLET',
-          truemdCode: '46641w',
-          manufacturer: 'Menarini India Pvt Ltd',
-          pForm: 'Suspension',
-          packSize: '60 ml Suspension',
-          mrp: 18.76,
-        },
-      ],
+      medicineList: [],
       userLocation: {
         lat: undefined,
         lng: undefined,
@@ -75,14 +58,22 @@ class App extends Component {
     }));
   };
 
-  onMedicineUpdate = ({ selectedMdCode, replaceMdCode, replaceMedicineName}) => {
+  onMedicineUpdate = ({ selectedMdCode, replaceMdCode, options, resetSubstituteList }) => () => {
+    console.log(options);
     this.setState(prevState => ({
       ...prevState,
       medicineList: [
         ...prevState.medicineList.filter(item => item.mdCode !== selectedMdCode),
-        { medicineName: replaceMedicineName, mdCode: replaceMdCode},
+        {
+          name: options.name,
+          mdCode: options.truemdCode,
+          packSize: options.size,
+          pForm: options.pForm,
+          manufacturer: options.manufacturer,
+        },
       ],
     }));
+    resetSubstituteList();
   };
   render() {
     return (
