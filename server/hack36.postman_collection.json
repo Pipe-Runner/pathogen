@@ -1,0 +1,284 @@
+{
+	"id": "29a2e4ac-ccac-78a8-0f60-5878bd4bd806",
+	"name": "hack36",
+	"description": "",
+	"order": [
+		"1d14ceaa-6a21-19f5-78b0-bbea9117a62a",
+		"0c06d526-382c-3685-e73c-d7b1f4bc5a6a",
+		"df4f5cae-7023-ce8a-9078-343089a27e03"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1516973673257,
+	"owner": "3343037",
+	"public": false,
+	"requests": [
+		{
+			"id": "0c06d526-382c-3685-e73c-d7b1f4bc5a6a",
+			"headers": "//Host: www.truemd.in\n//User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0\n//Accept: application/json, text/plain, */*\n//Accept-Language: en-US,en;q=0.5\n//Accept-Encoding: gzip, deflate\n//Referer: http://www.truemd.in/\n//X-XSRF-TOKEN: Fwzrsv8QeHT2UsIObcGFOvm6tOSJDkAJB7Zu6XiQzjCr/sFe3QPbb4A3QVoaou0qgWycmhE0bunY+RRIjjiHLA==\n//Cookie: __cfduid=deb923aa11edf5e80322488c16ea49c5e1516962956; c2d_widget_id=%5Bchat%5D%20dfofey6kk67; XSRF-TOKEN=Fwzrsv8QeHT2UsIObcGFOvm6tOSJDkAJB7Zu6XiQzjCr%2FsFe3QPbb4A3QVoaou0qgWycmhE0bunY%2BRRIjjiHLA%3D%3D; _truemd_session=TGV5cFdpMkNKUk04ek9LN05oWXZLeHM2ckw3eGNnVk5pSlpUZGl5UnNFMTFtajZNZmdKN2RwOHdFTUpwU2tuQ1BJNlNGd09WTXRMdXY4cGp5ZXhnZ2RIRzRML2Zhd3hqTG4zVVZBMGFOSHRvc0FXR2ZuclBvT1hnanhPV25sVHdNZ0MvM0tmd09VUC9jOTZFVEFqTk1BPT0tLUwzVEdwWmRYeUo1YXlQNmMvcHB0b3c9PQ%3D%3D--894b731d535e4df865c8740496ca12d070e79af2\nProxy-Authorization: Basic ZWRjZ3Vlc3Q6ZWRjZ3Vlc3Q=\n//Connection: keep-alive\n",
+			"headerData": [
+				{
+					"key": "Host",
+					"value": "www.truemd.in",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "User-Agent",
+					"value": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Accept",
+					"value": "application/json, text/plain, */*",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Accept-Language",
+					"value": "en-US,en;q=0.5",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Accept-Encoding",
+					"value": "gzip, deflate",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Referer",
+					"value": "http://www.truemd.in/",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "X-XSRF-TOKEN",
+					"value": "Fwzrsv8QeHT2UsIObcGFOvm6tOSJDkAJB7Zu6XiQzjCr/sFe3QPbb4A3QVoaou0qgWycmhE0bunY+RRIjjiHLA==",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Cookie",
+					"value": "__cfduid=deb923aa11edf5e80322488c16ea49c5e1516962956; c2d_widget_id=%5Bchat%5D%20dfofey6kk67; XSRF-TOKEN=Fwzrsv8QeHT2UsIObcGFOvm6tOSJDkAJB7Zu6XiQzjCr%2FsFe3QPbb4A3QVoaou0qgWycmhE0bunY%2BRRIjjiHLA%3D%3D; _truemd_session=TGV5cFdpMkNKUk04ek9LN05oWXZLeHM2ckw3eGNnVk5pSlpUZGl5UnNFMTFtajZNZmdKN2RwOHdFTUpwU2tuQ1BJNlNGd09WTXRMdXY4cGp5ZXhnZ2RIRzRML2Zhd3hqTG4zVVZBMGFOSHRvc0FXR2ZuclBvT1hnanhPV25sVHdNZ0MvM0tmd09VUC9jOTZFVEFqTk1BPT0tLUwzVEdwWmRYeUo1YXlQNmMvcHB0b3c9PQ%3D%3D--894b731d535e4df865c8740496ca12d070e79af2",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Proxy-Authorization",
+					"value": "Basic ZWRjZ3Vlc3Q6ZWRjZ3Vlc3Q=",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Connection",
+					"value": "keep-alive",
+					"description": "",
+					"enabled": false
+				}
+			],
+			"url": "http://www.truemd.in/api/v2/medicines/63GIV/alternatives.json",
+			"queryParams": [
+				{
+					"key": "key",
+					"value": "14032356f848f2da097c9213015c5f71",
+					"equals": true,
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "medline",
+					"value": "true",
+					"equals": true,
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "medline_criteria",
+					"value": "why,precaution,storage,diet",
+					"equals": true,
+					"description": "",
+					"enabled": false
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "29a2e4ac-ccac-78a8-0f60-5878bd4bd806",
+			"data": null,
+			"dataMode": "params",
+			"name": "medcode",
+			"description": "medicine code is added after /api/v2/{medCode}/",
+			"descriptionFormat": "html",
+			"time": 1516976452008,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "1d14ceaa-6a21-19f5-78b0-bbea9117a62a",
+			"headers": "//Host: www.truemd.in\n//User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0\n//Accept: application/json, text/plain, */*\n//Accept-Language: en-US,en;q=0.5\n//Accept-Encoding: gzip, deflate\n//Referer: http://www.truemd.in/\n//X-XSRF-TOKEN: 4qG+5KqixnW40jcPz29qfLiFnhyQq8W3wgiVyGiG8NZeU5QIiLFlbs63tFu4DAJswFO2YgiR61cdR+9pni65yg==\n//Cookie: __cfduid=deb923aa11edf5e80322488c16ea49c5e1516962956; c2d_widget_id=%5Bchat%5D%20dfofey6kk67; XSRF-TOKEN=4qG%2B5KqixnW40jcPz29qfLiFnhyQq8W3wgiVyGiG8NZeU5QIiLFlbs63tFu4DAJswFO2YgiR61cdR%2B9pni65yg%3D%3D; _truemd_session=a3pxdFVONjlFdVdlNkd3c3ZwbXRxTkc5YW53RFF6RlB5Y3FvL0oxam1XVDBKTnBhR09WQVk4QlF2dityTEFYd0cwcTJndlJrTittYzdvR3ZUd1NpaEJSZ3dZMFRDNENKZklMeHg1WnhrTkVETjRRNFVZQmZCZ3J2QUFZUXhjcTBIdXJXSXMzNUg5TVFwN1lZZFNjTEpRPT0tLW44NkZXMVJMQVdMSURvcTBSNnVxcmc9PQ%3D%3D--c588d30dad56e9bb119038b4a740bb4eeca8d49a\nProxy-Authorization: Basic ZWRjZ3Vlc3Q6ZWRjZ3Vlc3Q=\n//Connection: keep-alive\n",
+			"headerData": [
+				{
+					"key": "Host",
+					"value": "www.truemd.in",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "User-Agent",
+					"value": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Accept",
+					"value": "application/json, text/plain, */*",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Accept-Language",
+					"value": "en-US,en;q=0.5",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Accept-Encoding",
+					"value": "gzip, deflate",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Referer",
+					"value": "http://www.truemd.in/",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "X-XSRF-TOKEN",
+					"value": "4qG+5KqixnW40jcPz29qfLiFnhyQq8W3wgiVyGiG8NZeU5QIiLFlbs63tFu4DAJswFO2YgiR61cdR+9pni65yg==",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Cookie",
+					"value": "__cfduid=deb923aa11edf5e80322488c16ea49c5e1516962956; c2d_widget_id=%5Bchat%5D%20dfofey6kk67; XSRF-TOKEN=4qG%2B5KqixnW40jcPz29qfLiFnhyQq8W3wgiVyGiG8NZeU5QIiLFlbs63tFu4DAJswFO2YgiR61cdR%2B9pni65yg%3D%3D; _truemd_session=a3pxdFVONjlFdVdlNkd3c3ZwbXRxTkc5YW53RFF6RlB5Y3FvL0oxam1XVDBKTnBhR09WQVk4QlF2dityTEFYd0cwcTJndlJrTittYzdvR3ZUd1NpaEJSZ3dZMFRDNENKZklMeHg1WnhrTkVETjRRNFVZQmZCZ3J2QUFZUXhjcTBIdXJXSXMzNUg5TVFwN1lZZFNjTEpRPT0tLW44NkZXMVJMQVdMSURvcTBSNnVxcmc9PQ%3D%3D--c588d30dad56e9bb119038b4a740bb4eeca8d49a",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "Proxy-Authorization",
+					"value": "Basic ZWRjZ3Vlc3Q6ZWRjZ3Vlc3Q=",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Connection",
+					"value": "keep-alive",
+					"description": "",
+					"enabled": false
+				}
+			],
+			"url": "http://www.truemd.in/api/v2/medicines.json?search=crop",
+			"queryParams": [
+				{
+					"key": "key",
+					"value": "7f556015a882f1e1b70779e35723b188",
+					"equals": true,
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "search",
+					"value": "crop",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1516991739831,
+			"name": "Keyword-Search medicine by starting ",
+			"description": "Get Autocomplete",
+			"collectionId": "29a2e4ac-ccac-78a8-0f60-5878bd4bd806",
+			"responses": []
+		},
+		{
+			"id": "df4f5cae-7023-ce8a-9078-343089a27e03",
+			"headers": "Proxy-Authorization: Basic ZWRjZ3Vlc3Q6ZWRjZ3Vlc3Q=\n",
+			"headerData": [
+				{
+					"key": "Proxy-Authorization",
+					"value": "Basic ZWRjZ3Vlc3Q6ZWRjZ3Vlc3Q=",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "https://maps.googleapis.com/maps/api/place/nearbysearch/json?radius=500&type=pharmacy&key=AIzaSyBiNfMAYS471tn8hxoNkoaK-dZAfYyU1Gs&location=25.32,82.92",
+			"queryParams": [
+				{
+					"key": "radius",
+					"value": "500",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "type",
+					"value": "pharmacy",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "keyword",
+					"value": "cruise",
+					"equals": true,
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "key",
+					"value": "AIzaSyBiNfMAYS471tn8hxoNkoaK-dZAfYyU1Gs",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "location",
+					"value": "25.32,82.92",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1516992084481,
+			"name": "Maps Test",
+			"description": "Google maps API, nearest places, by &place=pharmacy",
+			"collectionId": "29a2e4ac-ccac-78a8-0f60-5878bd4bd806",
+			"responses": []
+		}
+	]
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Dropdown, Button, Card } from 'semantic-ui-react';
+import { Dropdown, Button, Card, Table } from 'semantic-ui-react';
+// import { InputFieldWrapper } from './styles.MedicinePicker.js';
 import {
   MedicinePickerContainer,
   InputFieldWrapper,
@@ -90,6 +91,8 @@ class MedicinePicker extends Component {
   };
 
   render() {
+    const substituteList = this.state.substituteList;
+
     const medicineList = this.props.medicineList;
 
     return (
@@ -170,7 +173,29 @@ class MedicinePicker extends Component {
               ))}
             </Card.Group>
           </CartWrapper>
-          <SubstituteWrapper>fdaa</SubstituteWrapper>
+          <SubstituteWrapper>
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Name</Table.HeaderCell>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
+                  <Table.HeaderCell>Notes</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+
+              <Table.Body>
+                {substituteList.map(substitute => (
+                  <Table.Row>
+                    <Table.Cell>{substitute.name}</Table.Cell>
+                    <Table.Cell>{substitute.mdId}</Table.Cell>
+                    <Table.Cell selectable>
+                      <a href="#">Edit</a>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </SubstituteWrapper>
         </BucketContainer>
       </MedicinePickerContainer>
     );
