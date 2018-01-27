@@ -12,8 +12,14 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 GOOGLE = 'AIzaSyBiNfMAYS471tn8hxoNkoaK-dZAfYyU1Gs'
+CAP_SIZE = 50
 
 class NearBy(Resource):
+    def get(self):
+        dic = {}
+        dic['dad'] = "bikram"
+        return jsonify(dic)
+
     def cleanMe(self,data,meds):
         clean_shops = []
 
@@ -48,8 +54,9 @@ class Substitute(Resource):
     def cleanMe(self,data):
         cleaned_data = []
         for i in data["alternatives"]:
-            cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"], "truemdId":i["truemdId"] } )
-        return cleaned_data
+            cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"], "unitPrice":i['unitPrice'],"truemdId":i["truemdId"] } )
+        cleaned_data.sort(key=lambda x: x['unitPrice'])
+        return cleaned_data[0:CAP_SIZE]
 
     def post(self):
         print(request.json)
