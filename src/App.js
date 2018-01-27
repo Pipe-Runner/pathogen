@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
 
 import Map from './scenes/Map';
 import MedicinePicker from './scenes/MedicinePicker';
@@ -114,6 +114,7 @@ class App extends Component {
                 />
               )}
             />
+            <Route render={() => <Redirect to="/medicinepicker" />} />
           </Switch>
         </Router>
       </div>

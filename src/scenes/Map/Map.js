@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { fetchNearbyShops } from './api.Map';
 import { Redirect } from 'react-router';
-import { Button, Image, List } from 'semantic-ui-react';
+import { Button, Image, List, Segment } from 'semantic-ui-react';
 
 import MapRenderer from './components/MapRenderer';
 import {
@@ -22,6 +22,40 @@ class Map extends Component {
     };
   }
 
+  // {
+  //   avail: [
+  //     {
+  //       location: '26.4920107,82.86391630000009',
+  //       name: 'Krishna Medico',
+  //     },
+  //   ],
+  //   medCode: 'v5df5',
+  //   manufacturer: 'Alpha',
+  //   name: 'Paracitamol',
+  // },
+  // {
+  //   avail: [
+  //     {
+  //       location: '25.1688163,84.8910647',
+  //       name: 'Krishna Medico',
+  //     },
+  //   ],
+  //   medCode: 'v5dfd',
+  //   manufacturer: 'Alpha',
+  //   name: 'Paracitamol',
+  // },
+  // {
+  //   avail: [
+  //     {
+  //       location: '26.1688163,85.8910647',
+  //       name: 'Krishna Medico',
+  //     },
+  //   ],
+  //   medCode: 'v5dS5',
+  //   manufacturer: 'Alpha',
+  //   name: 'Paracitamol',
+  // },
+
   componentWillMount = () => {
     fetchNearbyShops({
       radius: this.props.radius,
@@ -37,10 +71,10 @@ class Map extends Component {
       })
       .then(data => {
         console.log(data);
-        // this.setState(prevState => ({
-        //   ...prevState,
-        //   shopMap: data,
-        // }));
+        this.setState(prevState => ({
+          ...prevState,
+          shopMap: data,
+        }));
       })
       .catch(error => {
         console.log(error);
@@ -49,6 +83,17 @@ class Map extends Component {
 
   componentWillUnmount = () => {
     console.log('unmounting');
+  };
+
+  setMarkerOnMap = ({ shopLocation }) => () => {
+    this.setState(prevState => ({
+      ...prevState,
+      markerArray: shopLocation.map(item => ({
+        shopName: item.name,
+        lat: item.location.split(',')[0],
+        lng: item.location.split(',')[1],
+      })),
+    }));
   };
 
   render() {
@@ -70,24 +115,28 @@ class Map extends Component {
           wayPointArray={this.state.wayPointArray}
         />
         <InformationContainer>
-          <MedicineListWrapper>
-            <List divided verticalAlign="middle">
-              {this.state.shopMap.map((item, index) => (
-                <List.Item key={index}>
-                  <List.Content floated="right">
-                    <Button>Shops</Button>
-                  </List.Content>
-                  <Image avatar src={ShopIcon} />
-                  <List.Content>
-                    <List.Header as="a">{item.name}</List.Header>
-                    <List.Description>{item.options.manufacturer}</List.Description>
-                    {item.options.mrp}
-                  </List.Content>
-                </List.Item>
-              ))}
-            </List>
-          </MedicineListWrapper>
-          <ButtonWrapper />
+          <Segment raised>
+            <MedicineListWrapper>
+              <List divided verticalAlign="middle">
+                {this.state.shopMap.map((item, index) => (
+                  <List.Item key={index}>
+                    <List.Content floated="right">
+                      <Button onClick={this.setMarkerOnMap({ shopLocation: item.avail })}>
+                        Shops
+                      </Button>
+                    </List.Content>
+                    <Image avatar src={ShopIcon} />
+                    <List.Content>
+                      <List.Header as="a">{item.name}</List.Header>
+                      <List.Description>{item.manufacturer}</List.Description>
+                      {item.mrp}
+                    </List.Content>
+                  </List.Item>
+                ))}
+              </List>
+            </MedicineListWrapper>
+            <ButtonWrapper />
+          </Segment>
         </InformationContainer>
       </MapContainer>
     );
