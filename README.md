@@ -16,8 +16,8 @@ It can really help us find cheap drug alternatives  while saving our time for ch
 
 #### We have two branches for our project:
 (We are using separate servers for hosting frontend and backend)
->1. **master**:  _for frontend contents_
->2. **backend**:  _for backend API's_
+>1. **master**:  _for frontend contents_ (Node Server)
+>2. **backend**:  _for backend API's_ (Python Server)
 
 ## Technology Stack
 
