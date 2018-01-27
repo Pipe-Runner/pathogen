@@ -193,7 +193,7 @@ class MedicinePicker extends Component {
 
     return (
       <MedicinePickerContainer>
-        <Dimmer active={this.state.substituteListLoading} onClickOutside={this.handleClose} page>
+        <Dimmer active={this.state.substituteListLoading} page>
           <Loader indeterminate>Fetching Similar Medicines</Loader>
         </Dimmer>
         <InputFieldWrapper>
