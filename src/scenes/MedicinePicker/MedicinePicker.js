@@ -19,7 +19,7 @@ import {
   FooterContainer,
   SubstituteWrapper,
 } from './styles.MedicinePicker.js';
-import { fetchMedicineNameApi } from './api.MedicinePicker';
+import { fetchMedicineNameApi,fetchSubstituteListApi } from './api.MedicinePicker';
 import MedicineIcon from '../../public/medicine_icon.svg';
 
 const radiusOptions = [
@@ -36,37 +36,13 @@ class MedicinePicker extends Component {
       medicineFieldText: '',
       locationFieldText: '',
       searchRadiusFieldText: '',
-      substituteList: [
-        {
-          name: 'xyz',
-          truemdCode: 123,
-          options: {
-            manufacturer: 'Menarini India Pvt Ltd',
-            mrp: 233.83,
-            name: 'CROPHEN 5MG/125MG TABLET',
-            pForm: 'Tablet',
-            packSize: '500  Tablet',
-            truemdCode: '6w4Q33',
-          },
-        },
-        {
-          name: 'abc',
-          truemdCode: 145,
-          options: {
-            manufacturer: 'Menarini India Pvt Ltd',
-            mrp: 233.83,
-            name: 'CROPHEN 5MG/125MG TABLET',
-            pForm: 'Tablet',
-            packSize: '500  Tablet',
-            truemdCode: '6w4Q33',
-          },
-        },
-      ],
+      substituteList: [],
       medicineOptions: [],
       locationOptions: [],
       medicineOptionsLoading: false,
       medicineToAdd: {},
       findSubstitute: 'fda',
+      selectedMdCode: '',
     };
   }
 
@@ -95,6 +71,35 @@ class MedicinePicker extends Component {
       ...prevState,
       [`${fieldName}`]: data.value,
     }));
+  };
+
+  onSubstituteClick = ({mdCode}) => () => {
+  	console.log(mdCode);
+  	fetchSubstituteListApi({
+  		mdCode: mdCode,
+  	})
+  	.then(response => {
+  		if(response.ok === true){
+  			return response.json();
+  		}
+  		throw new Error('Error in network');
+
+  	}).then(data => {
+  		this.setState({
+  			...this.state,
+  			substituteList: data.map(item => ({
+  				manufacturer: item.manufacturer,
+  				truemdCode: item.truemId,
+  				mrp: item.mrp,
+  				name: item.name, 
+  			}))
+
+  		})
+            console.log(data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
   };
 
   onChangeTextField = fieldName => (event, { searchQuery }) => {
@@ -219,6 +224,7 @@ class MedicinePicker extends Component {
               onClick={this.props.onMedicineAdd({
                 medicineName: this.state.medicineToAdd.name,
                 mdCode: this.state.medicineToAdd.truemdCode,
+                pForm: this.state.pForm,
                 options: this.state.medicineToAdd,
               })}
             >
@@ -233,18 +239,19 @@ class MedicinePicker extends Component {
               {medicineList.map((medicine, index) => (
                 <Card key={index}>
                   <Card.Content>
-                  <Button style={{
-              float: 'right',
-            }}
-             icon='cancel' 
-              />
+                      <Label as='a' image style={{
+                      	float: 'right'
+                      }}>
+      {medicine.pForm}
+    </Label>
                     <Card.Header>{medicine.name}</Card.Header>
                     <Card.Meta>Packet Size : {medicine.packSize}</Card.Meta>
                     <Card.Description>{medicine.manufacturer} </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
                     <div className="ui two buttons">
-                      <Button basic color="green">
+                      <Button basic color="green"
+                      onClick = {this.onSubstituteClick({mdCode:medicine.mdCode})}>
                         Find Substitute
                       </Button>
                       <Button basic color="red"
@@ -281,13 +288,13 @@ class MedicinePicker extends Component {
                 {this.state.substituteList.map((item, index) => (
                   <List.Item key={index}>
                     <List.Content floated="right">
-                      <Button>Add</Button>
+                      <Button onClick = {this.props.onMedicineUpdate({selectedMdCode:item.mdCode,})}>Add</Button>
                     </List.Content>
                     <Image avatar src={MedicineIcon} />
                     <List.Content>
                       <List.Header as="a">{item.name}</List.Header>
-                      <List.Description>{item.options.manufacturer}</List.Description>
-                      {item.options.mrp}
+                      <List.Description>{item.manufacturer}</List.Description>
+                      {item.mrp}
                     </List.Content>
                   </List.Item>
                 ))}

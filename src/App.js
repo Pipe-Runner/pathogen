@@ -37,6 +37,7 @@ class App extends Component {
           name: medicineName,
           mdCode: mdCode,
           packSize: options.packSize,
+          pForm: options.pForm,
           manufacturer: options.manufacturer,
         },
       ],
@@ -50,16 +51,15 @@ class App extends Component {
     }));
   };
 
-  onMedicineUpdate = ({ selectedMdCode, replaceMdCode, replaceMedicineName }) => {
+  onMedicineUpdate = ({ selectedMdCode, replaceMdCode, replaceMedicineName}) => {
     this.setState(prevState => ({
       ...prevState,
       medicineList: [
         ...prevState.medicineList.filter(item => item.mdCode !== selectedMdCode),
-        { medicineName: replaceMedicineName, mdCode: replaceMdCode },
+        { medicineName: replaceMedicineName, mdCode: replaceMdCode},
       ],
     }));
   };
-
   render() {
     return (
       <div>
