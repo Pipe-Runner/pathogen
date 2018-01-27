@@ -14,6 +14,11 @@ CORS(app)
 GOOGLE = 'AIzaSyBiNfMAYS471tn8hxoNkoaK-dZAfYyU1Gs'
 
 class NearBy(Resource):
+    def get(self):
+        dic = {}
+        dic['dad'] = "bikram"
+        return jsonify(dic)
+
     def cleanMe(self,data,meds):
         clean_shops = []
         for m in data['results']:
@@ -43,7 +48,8 @@ class Substitute(Resource):
         cleaned_data = []
         for i in data["alternatives"]:
             cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"] } )
-        return cleaned_data
+        cleaned_data = cleaned_data.sort(key=lambda x: x.mrp)
+        return cleaned_data[0:20]
 
     def post(self):
         print(request.json)
