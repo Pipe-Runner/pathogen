@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
-import { Dropdown, Button, Card, Table } from 'semantic-ui-react';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import {
+  Dropdown,
+  Button,
+  Card,
+  Table,
+  Divider,
+  Label,
+  Segment,
+  List,
+  Image,
+} from 'semantic-ui-react';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   MedicinePickerContainer,
   InputFieldWrapper,
   BucketContainer,
   CartWrapper,
+  FooterContainer,
   SubstituteWrapper,
 } from './styles.MedicinePicker.js';
 import { fetchMedicineNameApi } from './api.MedicinePicker';
+import MedicineIcon from '../../public/medicine_icon.svg';
 
 const radiusOptions = [
   { key: 1, value: 5, text: '5 KM' ,mals:'ksajksakj'},
@@ -24,24 +36,68 @@ class MedicinePicker extends Component {
       medicineFieldText: '',
       locationFieldText: '',
       searchRadiusFieldText: '',
-      substituteList: [],
+      substituteList: [
+        {
+          name: 'xyz',
+          truemdCode: 123,
+          options: {
+            manufacturer: 'Menarini India Pvt Ltd',
+            mrp: 233.83,
+            name: 'CROPHEN 5MG/125MG TABLET',
+            pForm: 'Tablet',
+            packSize: '500  Tablet',
+            truemdCode: '6w4Q33',
+          },
+        },
+        {
+          name: 'abc',
+          truemdCode: 145,
+          options: {
+            manufacturer: 'Menarini India Pvt Ltd',
+            mrp: 233.83,
+            name: 'CROPHEN 5MG/125MG TABLET',
+            pForm: 'Tablet',
+            packSize: '500  Tablet',
+            truemdCode: '6w4Q33',
+          },
+        },
+      ],
       medicineOptions: [],
       locationOptions: [],
       medicineOptionsLoading: false,
+      medicineToAdd: {},
+      findSubstitute: 'fda',
     };
   }
 
-  onChangeSelection = fieldName => (event, { value }) => {
-    console.log(value);
+  onChangeSelection = fieldName => (event, data) => {
+    console.log(data);
+    switch (fieldName) {
+      case 'medicineFieldText':
+        this.setState(prevState => ({
+          ...prevState,
+          medicineToAdd: data.options.filter(item => item.value === data.value)[0].options,
+        }));
+        break;
+      case 'locationFieldText':
+        getLatLng(
+          data.options.filter(item => item.value === data.value)[0].options
+        ).then(({ lat, lng }) => {
+          this.props.onUserLocationUpdate({
+            lat: lat,
+            lng: lng,
+          });
+        });
+        break;
+    }
+
     this.setState(prevState => ({
       ...prevState,
-      [`${fieldName}`]: value,
+      [`${fieldName}`]: data.value,
     }));
   };
 
   onChangeTextField = fieldName => (event, { searchQuery }) => {
-    console.log(searchQuery);
-
     switch (fieldName) {
       case 'medicineFieldText':
         this.setState({
@@ -67,6 +123,7 @@ class MedicinePicker extends Component {
                 key: item.truemdCode,
                 text: item.name,
                 value: item.name,
+                options: item,
               })),
             });
             console.log(data);
@@ -85,6 +142,7 @@ class MedicinePicker extends Component {
               key: item.place_id,
               text: item.formatted_address,
               value: item.formatted_address,
+              options: item,
             })),
           }));
         });
@@ -159,14 +217,16 @@ class MedicinePicker extends Component {
             <Button
               positive
               onClick={this.props.onMedicineAdd({
-                medicineName: 'Hg',
-                mdCode: 123,
+                medicineName: this.state.medicineToAdd.name,
+                mdCode: this.state.medicineToAdd.truemdCode,
+                options: this.state.medicineToAdd,
               })}
             >
               Add
             </Button>
           </Button.Group>
         </InputFieldWrapper>
+        <Divider />
         <BucketContainer>
           <CartWrapper>
             <Card.Group>
@@ -177,17 +237,18 @@ class MedicinePicker extends Component {
               float: 'right',
             }}
              icon='cancel' 
-             onClick = {this.props.onMedicineDelete({mdCode:medicine.mdCode})} />
+              />
                     <Card.Header>{medicine.name}</Card.Header>
-                    <Card.Meta>{medicine.name}</Card.Meta>
-                    <Card.Description>{medicine.description}</Card.Description>
+                    <Card.Meta>Packet Size : {medicine.packSize}</Card.Meta>
+                    <Card.Description>{medicine.manufacturer} </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
                     <div className="ui two buttons">
                       <Button basic color="green">
                         Find Substitute
                       </Button>
-                      <Button basic color="red">
+                      <Button basic color="red"
+                      onClick = {this.props.onMedicineDelete({mdCode:medicine.mdCode})}>
                         Remove
                       </Button>
                     </div>
@@ -196,30 +257,54 @@ class MedicinePicker extends Component {
               ))}
             </Card.Group>
           </CartWrapper>
-          <SubstituteWrapper>
-            <Table celled>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Name</Table.HeaderCell>
-                  <Table.HeaderCell>Status</Table.HeaderCell>
-                  <Table.HeaderCell>Notes</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-
-              <Table.Body>
-                {substituteList.map(substitute => (
-                  <Table.Row>
-                    <Table.Cell>{substitute.name}</Table.Cell>
-                    <Table.Cell>{substitute.mdId}</Table.Cell>
-                    <Table.Cell selectable>
-                      <a href="#">Edit</a>
-                    </Table.Cell>
-                  </Table.Row>
+          {!this.state.findSubstitute ? (
+            undefined
+          ) : (
+            <SubstituteWrapper>
+              <Segment raised>
+                <Label
+                  onClick={() => {
+                    this.setState(prevState => ({
+                      ...prevState,
+                      findSubstitute: {},
+                    }));
+                  }}
+                  as="a"
+                  color="orange"
+                  ribbon
+                >
+                  Cancel
+                </Label>
+                <span>Substitue</span>
+              </Segment>
+              <List divided verticalAlign="middle">
+                {this.state.substituteList.map((item, index) => (
+                  <List.Item key={index}>
+                    <List.Content floated="right">
+                      <Button>Add</Button>
+                    </List.Content>
+                    <Image avatar src={MedicineIcon} />
+                    <List.Content>
+                      <List.Header as="a">{item.name}</List.Header>
+                      <List.Description>{item.options.manufacturer}</List.Description>
+                      {item.options.mrp}
+                    </List.Content>
+                  </List.Item>
                 ))}
-              </Table.Body>
-            </Table>
-          </SubstituteWrapper>
+              </List>
+            </SubstituteWrapper>
+          )}
         </BucketContainer>
+        <FooterContainer>
+        <Button basic color="red"
+        style = {{
+        	float: 'right',
+        	margin: '0px 16px 0px 0px'
+        }}
+                      >
+                        Remove
+                      </Button>
+        </FooterContainer>
       </MedicinePickerContainer>
     );
   }
