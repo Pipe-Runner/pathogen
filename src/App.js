@@ -8,28 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      medicineList: [
-        {
-          name: 'Para',
-          mdCode: '12354',
-          description: 'some data abc',
-        },
-        {
-          name: 'Hara',
-          mdCode: '79546',
-          description: 'some other data too',
-        },
-        {
-          name: 'Hara',
-          mdCode: '79546',
-          description: 'some other data too',
-        },
-        {
-          name: 'Hara',
-          mdCode: '79546',
-          description: 'some other data too',
-        },
-      ],
+      medicineList: [],
       listOfMedicine: [],
       userLocation: {
         lat: undefined,
@@ -38,7 +17,7 @@ class App extends Component {
     };
   }
 
-  onUserLocationUpdate = ({ lat, lng }) => () => {
+  onUserLocationUpdate = ({ lat, lng }) => {
     this.setState(prevState => ({
       ...prevState,
       userLocation: {
@@ -48,14 +27,17 @@ class App extends Component {
     }));
   };
 
-  onMedicineAdd = ({ medicineName, mdCode }) => () => {
+  onMedicineAdd = ({ medicineName, mdCode, options }) => () => {
+    console.log(options);
     this.setState(prevState => ({
       ...prevState,
       medicineList: [
         ...prevState.medicineList,
         {
-          medicineName: medicineName,
+          name: medicineName,
           mdCode: mdCode,
+          packSize: options.packSize,
+          manufacturer: options.manufacturer,
         },
       ],
     }));

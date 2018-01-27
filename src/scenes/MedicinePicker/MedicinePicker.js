@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, Button, Card, Table } from 'semantic-ui-react';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   MedicinePickerContainer,
   InputFieldWrapper,
@@ -28,20 +28,38 @@ class MedicinePicker extends Component {
       medicineOptions: [],
       locationOptions: [],
       medicineOptionsLoading: false,
+      medicineToAdd: {},
     };
   }
 
-  onChangeSelection = fieldName => (event, { value }) => {
-    console.log(value);
+  onChangeSelection = fieldName => (event, data) => {
+    console.log(data);
+    switch (fieldName) {
+      case 'medicineFieldText':
+        this.setState(prevState => ({
+          ...prevState,
+          medicineToAdd: data.options.filter(item => item.value === data.value)[0].options,
+        }));
+        break;
+      case 'locationFieldText':
+        getLatLng(
+          data.options.filter(item => item.value === data.value)[0].options
+        ).then(({ lat, lng }) => {
+          this.props.onUserLocationUpdate({
+            lat: lat,
+            lng: lng,
+          });
+        });
+        break;
+    }
+
     this.setState(prevState => ({
       ...prevState,
-      [`${fieldName}`]: value,
+      [`${fieldName}`]: data.value,
     }));
   };
 
   onChangeTextField = fieldName => (event, { searchQuery }) => {
-    console.log(searchQuery);
-
     switch (fieldName) {
       case 'medicineFieldText':
         this.setState({
@@ -67,6 +85,7 @@ class MedicinePicker extends Component {
                 key: item.truemdCode,
                 text: item.name,
                 value: item.name,
+                options: item,
               })),
             });
             console.log(data);
@@ -85,6 +104,7 @@ class MedicinePicker extends Component {
               key: item.place_id,
               text: item.formatted_address,
               value: item.formatted_address,
+              options: item,
             })),
           }));
         });
@@ -159,8 +179,9 @@ class MedicinePicker extends Component {
             <Button
               positive
               onClick={this.props.onMedicineAdd({
-                medicineName: 'Hg',
-                mdCode: 123,
+                medicineName: this.state.medicineToAdd.name,
+                mdCode: this.state.medicineToAdd.truemdCode,
+                options: this.state.medicineToAdd,
               })}
             >
               Add
@@ -174,8 +195,8 @@ class MedicinePicker extends Component {
                 <Card key={index}>
                   <Card.Content>
                     <Card.Header>{medicine.name}</Card.Header>
-                    <Card.Meta>{medicine.name}</Card.Meta>
-                    <Card.Description>{medicine.description}</Card.Description>
+                    <Card.Meta>Packet Size : {medicine.packSize}</Card.Meta>
+                    <Card.Description>{medicine.manufacturer} </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
                     <div className="ui two buttons">
