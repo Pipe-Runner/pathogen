@@ -33,7 +33,11 @@ class NearBy(Resource):
         #print "****************CLEAN SHOPS",data,clean_shops
         
         for m in range(len(meds)):
-            randi=list(set(random.sample(range(0,len(clean_shops)-1),random.randint( 1,len(clean_shops)-1))))
+            try:
+                randi=list(set(random.sample(range(0,len(clean_shops)-1),random.randint( 1 ,len(clean_shops)-1))))
+            except:
+                randi =[0]
+            #randi=list(set(random.sample(range(0,len(clean_shops)-1),random.randint( 1,len(clean_shops)-1))))
             randi.sort()
             meds[m]["avail"] = [clean_shops[i] for i in randi]
 	print [len(i["avail"]) for i in meds]
