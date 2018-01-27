@@ -18,6 +18,7 @@ const MapRenderer = withScriptjs(
               return (
                 <Marker
                   key={index}
+                  options={{icon: 'http://res.cloudinary.com/dpxbd37qm/image/upload/v1517077345/pharmacy_jnttko.svg'}}
                   position={{ lat: parseFloat(item.lat), lng: parseFloat(item.lng) }}
                 />
               );
