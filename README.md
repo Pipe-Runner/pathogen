@@ -13,4 +13,4 @@ It can really help us find cheap drug alternatives  while saving our time for ch
 
 #### We have two branches for our project:
 >1. **master**:  _for frontend contents_
-2. **backend**:  _for backend API's_
+>2. **backend**:  _for backend API's_
