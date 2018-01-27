@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown, Button, Card, Table } from 'semantic-ui-react';
-// import { InputFieldWrapper } from './styles.MedicinePicker.js';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
   MedicinePickerContainer,
   InputFieldWrapper,
@@ -42,37 +42,55 @@ class MedicinePicker extends Component {
   onChangeTextField = fieldName => (event, { searchQuery }) => {
     console.log(searchQuery);
 
-    if (fieldName === 'medicineFieldText') {
-      this.setState({
-        ...this.state,
-        medicineOptionsLoading: true,
-      });
-
-      // api call to server
-      fetchMedicineNameApi({
-        search: searchQuery,
-      })
-        .then(response => {
-          if (response.ok === true) {
-            return response.json();
-          }
-          throw new Error('Error in network');
-        })
-        .then(data => {
-          this.setState({
-            ...this.state,
-            medicineOptionsLoading: false,
-            medicineOptions: data.suggestions.map(item => ({
-              key: item.truemdCode,
-              text: item.name,
-              value: item.name,
-            })),
-          });
-          console.log(data);
-        })
-        .catch(error => {
-          console.log(error);
+    switch (fieldName) {
+      case 'medicineFieldText':
+        this.setState({
+          ...this.state,
+          medicineOptionsLoading: true,
         });
+
+        // api call to server
+        fetchMedicineNameApi({
+          search: searchQuery,
+        })
+          .then(response => {
+            if (response.ok === true) {
+              return response.json();
+            }
+            throw new Error('Error in network');
+          })
+          .then(data => {
+            this.setState({
+              ...this.state,
+              medicineOptionsLoading: false,
+              medicineOptions: data.suggestions.map(item => ({
+                key: item.truemdCode,
+                text: item.name,
+                value: item.name,
+              })),
+            });
+            console.log(data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        break;
+      case 'locationFieldText':
+        // api call for location
+        geocodeByAddress(searchQuery).then(results => {
+          console.log(results);
+          this.setState(prevState => ({
+            ...prevState,
+            locationOptions: results.map(item => ({
+              key: item.place_id,
+              text: item.formatted_address,
+              value: item.formatted_address,
+            })),
+          }));
+        });
+        break;
+      default:
+        break;
     }
 
     this.setState(prevState => ({

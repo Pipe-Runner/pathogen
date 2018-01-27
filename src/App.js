@@ -31,8 +31,22 @@ class App extends Component {
         },
       ],
       listOfMedicine: [],
+      userLocation: {
+        lat: undefined,
+        lng: undefined,
+      },
     };
   }
+
+  onUserLocationUpdate = ({ lat, lng }) => () => {
+    this.setState(prevState => ({
+      ...prevState,
+      userLocation: {
+        lat: lat,
+        lng: lng,
+      },
+    }));
+  };
 
   onMedicineAdd = ({ medicineName, mdCode }) => () => {
     this.setState(prevState => ({
@@ -78,6 +92,7 @@ class App extends Component {
                   onMedicineAdd={this.onMedicineAdd}
                   onMedicineDelete={this.onMedicineDelete}
                   onMedicineUpdate={this.onMedicineUpdate}
+                  onUserLocationUpdate={this.onUserLocationUpdate}
                 />
               )}
             />
