@@ -96,9 +96,9 @@ class MedicinePicker extends Component {
   				truemdCode: item.truemId,
   				mrp: item.mrp,
   				name: item.name, 
-  			}))
+  			})),
 
-  		})
+  		});
             console.log(data);
           })
           .catch(error => {
@@ -296,7 +296,7 @@ class MedicinePicker extends Component {
                 {this.state.substituteList.map((item, index) => (
                   <List.Item key={index}>
                     <List.Content floated="right">
-                      <Button onClick = {this.props.onMedicineUpdate({selectedMdCode:item.mdCode,})}>Add</Button>
+                      <Button>Add</Button>
                     </List.Content>
                     <Image avatar src={MedicineIcon} />
                     <List.Content>
