@@ -8,14 +8,38 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      medicineList: [],
-      listOfMedicine: [],
+      medicineList: [
+        {
+          name: 'CROPARA 250MG SUSPENSION',
+          truemdCode: '634GGz',
+          manufacturer: 'Menarini India Pvt Ltd',
+          pForm: 'Suspension',
+          packSize: '60 ml Suspension',
+          mrp: 18.76,
+        },
+        {
+          name: 'CROPHEN 5MG/125MG TABLET',
+          truemdCode: '46641w',
+          manufacturer: 'Menarini India Pvt Ltd',
+          pForm: 'Suspension',
+          packSize: '60 ml Suspension',
+          mrp: 18.76,
+        },
+      ],
       userLocation: {
         lat: undefined,
         lng: undefined,
       },
+      radius: undefined,
     };
   }
+
+  onRadiusUpdate = radius => {
+    this.setState(prevState => ({
+      ...prevState,
+      radius: radius,
+    }));
+  };
 
   onUserLocationUpdate = ({ lat, lng }) => {
     this.setState(prevState => ({
@@ -75,16 +99,26 @@ class App extends Component {
                   onMedicineDelete={this.onMedicineDelete}
                   onMedicineUpdate={this.onMedicineUpdate}
                   onUserLocationUpdate={this.onUserLocationUpdate}
+                  onRadiusUpdate={this.onRadiusUpdate}
                 />
               )}
             />
-            <Route exact path="/map" render={() => <Map />} />
+            <Route
+              exact
+              path="/map"
+              render={() => (
+                <Map
+                  medicineList={this.state.medicineList}
+                  userLocation={this.state.userLocation}
+                  radius={this.state.radius}
+                />
+              )}
+            />
           </Switch>
         </Router>
       </div>
     );
   }
 }
-
 
 export default App;
