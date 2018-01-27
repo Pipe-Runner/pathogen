@@ -16,10 +16,10 @@ const medicineOptions = [
 ];
 
 const radiusOptions = [
-  { key: 1, value: 5, text: '5 KM' },
-  { key: 2, value: 10, text: '10 KM' },
-  { key: 3, value: 15, text: '15 KM' },
-  { key: 4, value: 20, text: '20 KM' },
+  { key: 1, value: 5, text: '5 KM' ,mals:'ksajksakj'},
+  { key: 2, value: 10, text: '10 KM',mals:'ksajksakj' },
+  { key: 3, value: 15, text: '15 KM' ,mals:'ksajksakj'},
+  { key: 4, value: 20, text: '20 KM' ,mals:'ksajksakj'},
 ];
 
 class MedicinePicker extends Component {
@@ -105,6 +105,11 @@ class MedicinePicker extends Component {
               {medicineList.map((medicine, index) => (
                 <Card key={index}>
                   <Card.Content>
+                  <Button style={{
+              float: 'right',
+            }}
+             icon='cancel' 
+             onClick = {this.props.onMedicineDelete({mdCode:medicine.mdCode})} />
                     <Card.Header>{medicine.name}</Card.Header>
                     <Card.Meta>{medicine.name}</Card.Meta>
                     <Card.Description>{medicine.description}</Card.Description>

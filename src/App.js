@@ -34,7 +34,7 @@ class App extends Component {
     };
   }
 
-  onMedicineAdd = ({ medicineName, mdCode }) => {
+  onMedicineAdd = ({ medicineName, mdCode }) => () =>{
     this.setState(prevState => ({
       ...prevState,
       medicineList: [
@@ -47,7 +47,7 @@ class App extends Component {
     }));
   };
 
-  onMedicineDelete = ({ mdCode }) => {
+  onMedicineDelete = ({ mdCode }) => () => {
     this.setState(prevState => ({
       ...prevState,
       medicineList: prevState.medicineList.filter(item => item.mdCode !== mdCode),
@@ -88,5 +88,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;
