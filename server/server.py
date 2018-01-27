@@ -16,11 +16,17 @@ GOOGLE = 'AIzaSyBiNfMAYS471tn8hxoNkoaK-dZAfYyU1Gs'
 class NearBy(Resource):
     def cleanMe(self,data,meds):
         clean_shops = []
+
+        if data["status"] == "ZERO_RESULTS":
+            return []
+        
         for m in data['results']:
             clean_shops.append({ "name":m["name"],"location": str(m["geometry"]["location"]["lat"])+","+str(m["geometry"]["location"]["lng"]) })
 
+        print "****************CLEAN SHOPS",data,clean_shops
+        
         for m in range(len(meds)):
-            randi=list(set(random.sample(range(0,len(clean_shops)-1),random.randint( min(3,len(clean_shops)/3) ,len(clean_shops)-1))))
+            randi=list(set(random.sample(range(0,len(clean_shops)-1),random.randint( 0 ,len(clean_shops)-1))))
             randi.sort()
             meds[m]["avail"] = [clean_shops[i] for i in randi]
         return meds
@@ -28,7 +34,7 @@ class NearBy(Resource):
     def post(self):
         print(request.json)
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-        radius = str(request.json['radius'])
+        radius = str(request.json['radius']*1000)
         lat = str(request.json['lat'])
         lon = str(request.json['lon'])
         meds = request.json['meds']
@@ -42,11 +48,12 @@ class Substitute(Resource):
     def cleanMe(self,data):
         cleaned_data = []
         for i in data["alternatives"]:
-            cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"] } )
+            cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"], "truemdId":i["truemdId"] } )
         return cleaned_data
 
     def post(self):
         print(request.json)
+
         mdCode = request.json['mdCode']
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         uri = "http://www.truemd.in/api/v2/medicines/"+mdCode+"/alternatives.json"
