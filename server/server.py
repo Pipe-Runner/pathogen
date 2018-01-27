@@ -54,7 +54,7 @@ class Substitute(Resource):
     def cleanMe(self,data):
         cleaned_data = []
         for i in data["alternatives"]:
-            cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"], "unitPrice":i['unitPrice'],"truemdId":i["truemdId"] } )
+            cleaned_data.append( { "name":i["name"], "mrp":i["mrp"], "size":i["size"], "manufacturer":i["manufacturer"], "unitPrice":i['unitPrice'],"truemdId":i["truemdId"],"pForm":["pForm"] } )
         cleaned_data.sort(key=lambda x: x['unitPrice'])
         return cleaned_data[0:CAP_SIZE]
 
