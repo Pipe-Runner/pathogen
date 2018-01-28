@@ -23,12 +23,11 @@ It can really help us find cheap drug alternatives  while saving our time for ch
 
 ### Services Used:
 >1. Google Maps
->2. Google Places
->3. Google Location Autocomplete
+>2. Google Places,Location
 
 ### Frameworks in Use:
->1. ReactJS
->2. Flask
+>1. ReactJS, NodeJS
+>2. Flask/Python
 
 ### Database:
 
