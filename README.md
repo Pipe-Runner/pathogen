@@ -18,17 +18,16 @@ It can really help us find cheap drug alternatives  while saving our time for ch
 (We are using separate servers for hosting frontend and backend)
 >1. **master**:  _for frontend contents_ (Node Server)
 >2. **backend**:  _for backend API's_ (Python Server)
-
+>3. **backend** deployed on: http://ec2-52-39-175-212.us-west-2.compute.amazonaws.com/
 ## Technology Stack
 
 ### Services Used:
 >1. Google Maps
->2. Google Places
->3. Google Location Autocomplete
+>2. Google Places,Location
 
 ### Frameworks in Use:
->1. ReactJS
->2. Flask
+>1. ReactJS, NodeJS
+>2. Flask/Python
 
 ### Database:
 
