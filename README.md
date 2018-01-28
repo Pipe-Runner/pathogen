@@ -19,6 +19,13 @@ It can really help us find cheap drug alternatives  while saving our time for ch
 >1. **master**:  _for frontend contents_ (Node Server)
 >2. **backend**:  _for backend API's_ (Python Server)
 >3. **backend** deployed on: http://ec2-52-39-175-212.us-west-2.compute.amazonaws.com/
+
+### Instructions for Running: 
+In root directory:
+```
+npm start 
+```
+
 ## Technology Stack
 
 ### Services Used:
